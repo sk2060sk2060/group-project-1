@@ -7,7 +7,7 @@ function getLyrics(){
         type: "GET",
         data: {
             apikey:"da9deef32d4c04ca1b56d484548bdf76",
-            q_track: trackSearch,
+            q_track_artist: trackSearch,
             format:"jsonp",
             callback:"jsonp_callback"
         },
