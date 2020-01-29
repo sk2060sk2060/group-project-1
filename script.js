@@ -251,20 +251,20 @@ function searchForArtist() {
     });
 }
 //log in code
-button.addEventListener("click", function () {
-    console.log("click");
+//button.addEventListener("click", function () {
+  //  console.log("click");
     
-    var redirectUri = window.location.href;
-    if (redirectUri !== "https://sk2060sk2060.github.io/project-1" || redirectUri !== "http://127.0.0.1:8080/") {
-        console.log(redirectUri);
-        var scope = "user-read-email";
-        window.location.href = "https://accounts.spotify.com/authorize?client_id=21b6e99dfa9948818d67377855f4d685&response_type=token&scope=" + encodeURIComponent(scope) + "&redirect_uri=" + redirectUri;
-    }
-});
+    //var redirectUri = window.location.href;
+    //if (redirectUri !== "https://sk2060sk2060.github.io/project-1" || redirectUri !== "http://127.0.0.1:8080/") {
+      //  console.log(redirectUri);
+        //var scope = "user-read-email";
+        //window.location.href = "https://accounts.spotify.com/authorize?client_id=21b6e99dfa9948818d67377855f4d685&response_type=token&scope=" + encodeURIComponent(scope) + "&redirect_uri=" + redirectUri;
+   // }
+//});
 
-document.getElementById("search").addEventListener("click", function() {
-    searchForArtist();
-});
+//document.getElementById("search").addEventListener("click", function() {
+  //  searchForArtist();
+//});
 
 
 
