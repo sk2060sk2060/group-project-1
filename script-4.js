@@ -15,7 +15,7 @@ function requestToken() {
     var redirectUri = window.location.href;
     if (redirectUri.includes("#access_token=")) return;
 
-    if (redirectUri !== "https://sk2060sk2060.github.io/project-1" || redirectUri !== "http://127.0.0.1:8080/") {
+    if (redirectUri !== "https://sk2060sk2060.github.io/group-project-1" || redirectUri !== "http://127.0.0.1:8080/") {
         redirectUri = "http://127.0.0.1:8080/"
 
         var scope = "user-library-modify";
@@ -65,23 +65,15 @@ function searchForArtist() {
             url: queryURL,
         }).fail(function (jqXHR, textStatus, errorThrown) {
         }).done(function (response) {
-            console.log("tracks", response);
-            var artist = response[0].artists[0].name;
-            var title = response[0].name;
+            console.log("tracks", response);  
+            var artist = response.tracks[0].artists[0].name;
+            var title = response.tracks[0].name
             var musixMatchQuery = `${artist} - ${title}`;
-
         });
 
     });
 }
 
-
-
 document.getElementById("search").addEventListener("click", function () {
     searchForArtist();
 });
-
-
-
-
-
