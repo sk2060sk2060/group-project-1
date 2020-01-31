@@ -4,14 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Music player</title>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.6.1/css/foundation.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"><link rel="stylesheet" href="./style.css">
   <link rel="stylesheet" type="text/css" href="style.css">
-
-
+  <title>Document</title>
 </head>
 <body>
+ 
+  <input id="search-term">
+  <button id="search">Search</button>
+  
+  <!-- <script src="https://code.jquery.com/jquery.js"></script> -->
+  <!-- <script src="script-4.js"></script> -->
+
 <!-- partial:index.partial.html -->
 <div class="wrapper">
   <!-- Wave bg-->
@@ -25,7 +31,7 @@
     <div class="text">
         <span>L</span><span>y</span><span>r</span><span>i</span><span>c</span><span>s</span>
       <div class="main-btn_wrapper"><i class="main-btn fa fa-play" aria-hidden="true"></i></div>
-      <button id= "btn">Log In To Spotify </button>
+      
     </div>
   </div>
   <div class="header">
@@ -93,15 +99,15 @@
       </div>
     </div>
     <div class="list_wrapper">
-      <ul class="list"> 
-        <li class="list_item selected"> 
+      <ul class="list" id="song-list"> 
+        <li class="list_item">
           <div class="thumb"> </div>
           <div class="info"> 
             <div class="title">Friday Comes</div>
             <div class="artist">Early</div>
           </div>
         </li>
-        <li class="list_item"> 
+        <li class="list_item selected"> 
           <div class="thumb"> </div>
           <div class="info"> 
             <div class="title">Friday Comes</div>
@@ -164,10 +170,11 @@
 <!-- partial -->
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TweenMax.min.js'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TimelineMax.min.js'></script><script  src="./script.js"></script>
-
+<script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.0/TimelineMax.min.js'></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery.js"></script>
 <script src="script2.js"></script>
-
+<script src="script-4.js"></script>
+<script  src="script.js"></script>
 </body>
 </html>
