@@ -48,43 +48,43 @@ function searchForArtist() {
       request.setRequestHeader("Accept", "application/json");
     },
     url: queryURL,
-  }).fail(function (jqXHR, textStatus, errorThrown) {
-  }).done(function (response) {
-    console.log(response);
-    var firstSongID = response.artists.items[0].id;
-    queryURL = `https://api.spotify.com/v1/artists/${firstSongID}/top-tracks?country=US`;
-
-    $.ajax({
-      method: "GET",
-      // headers: {
-      //     "Authorization": authorizationToken
-      // },
-      beforeSend: function (request) {
-        request.setRequestHeader("Authorization", authorizationToken);
-        request.setRequestHeader("Accept", "application/json");
-      },
-      url: queryURL,
-    }).fail(function (jqXHR, textStatus, errorThrown) {
     }).done(function (response) {
-      var openPlayer = document.querySelector(".btn-open-player");
-      openPlayer.click();
-      console.log({ response }, 'Clikc Response')
-      var tracks = response.tracks;
 
-      // var trackItems = document.getElementsByClassName("list_item");
-      // for (var i = 0; i < trackItems.length; i++) {
-      //   trackItems[i].id = i;
-      //   var artist = response.tracks[i].artists[0].name;
-      //   var title = response.tracks[i].name;
-      //   var musixMatchQuery = `${artist} - ${title}`;
-      //   musixMatchQueryArray.push(musixMatchQuery);
-      //   trackItems[i].querySelector(".title").textContent = title;
-      //   trackItems[i].querySelector(".artist").textContent = artist;
-      // }
-      displayTracks(tracks);
+
+        console.log(response);
+        var firstSongID = response.artists.items[0].id;
+        queryURL = `https://api.spotify.com/v1/artists/${firstSongID}/top-tracks?country=US`;
+
+        $.ajax({
+            method: "GET",
+            // headers: {
+            //     "Authorization": authorizationToken
+            // },
+            beforeSend: function (request) {
+                request.setRequestHeader("Authorization", authorizationToken);
+                request.setRequestHeader("Accept", "application/json");
+            },
+            url: queryURL,
+        }).done(function (response) {
+          console.log("tracks", response);
+          var openPlayer = document.querySelector(".btn-open-player");
+          openPlayer.click();
+          var trackItems = document.getElementsByClassName("list_item");
+          displayTracks(response.tracks);
+          for (var i = 0; i < trackItems.length; i++) {
+            trackItems[i].id = i;
+            var artist = response.tracks[i].artists[0].name;
+            var title = response.tracks[i].name;
+            var musixMatchQuery = `${artist} - ${title}`;
+            musixMatchQueryArray.push(musixMatchQuery);
+            trackItems[i].querySelector(".title").textContent = title;
+            trackItems[i].querySelector(".artist").textContent = artist;
+            $(trackItems[i]).attr("trackUri", response.tracks[i].uri);
+          }
+        });
+
+
     });
-
-  });
 }
 
 
@@ -94,8 +94,74 @@ document.getElementById("search").addEventListener("click", function () {
 
 
 
+<<<<<<< HEAD
 
 
+=======
+// First way 
+
+const listItem = $(".list")
+$(document).on("click", ".list_item",function(){
+ var songUri = this.getAttribute("trackuri");
+  addTrackToPlayer(songUri);
+})
+
+
+const listEl = document.querySelector("#song-list");
+listEl.addEventListener("click", function(event) {
+
+  if (event.target.matches("li")) {
+    console.log(event.target.id);
+    var listItem = event.target;
+    var artist = listItem.querySelector(".artist").textContent;
+    var title = listItem.querySelector(".title").textContent;
+    var musixMatchQuery = `${artist} - ${title}`;
+    $("#curator").append(`<div class="curator_title_wrapper"><span>LP</span>
+<div class="curator_line"></div>
+<div class="info"></div>
+<div class="playback_info"></div>
+<div class="title">${title}</div>
+<div class="artist">${artist}</div>
+<div class="curator_line"></div><span>20</span>
+</div>`);
+    getLyricsAndDisplay(musixMatchQuery);
+
+
+
+  }
+});
+
+function displayTracks(tracks) {
+
+  for (var i = 0; i < tracks.length; i++) {
+      var trackName = tracks[i].name;
+      var artistName = tracks[i].artists[0].name;
+      var image = tracks[i].album.images[0].url;
+      console.log(trackName);
+
+      $("#song-list").append(`<li class="list_item choice" id="0" data-title="${trackName}" data-artist="">
+      <div class="thumb"><img src="${image}"> </div>
+      <div class="info"> 
+        <div class="title">${trackName}</div>
+        <div class="artist">${artistName}</div>
+      </div>
+    </li>`);
+  
+  }
+
+}
+
+function addTrackToPlayer(songUri) {
+songUri = songUri.substring(songUri.lastIndexOf(":") + 1);
+
+console.log("uri", songUri)
+var player = $('<iframe id="playSong" width="600" height="350" frameborder="0" style={z-index:500;} allowtransparency="true" allow="encrypted-media"></iframe>');
+player.attr("id","trackplayer")
+var src= "https://open.spotify.com/embed/track/"+ songUri
+player.attr("src", src);
+$(".playback_wrapper").html(player);
+}
+>>>>>>> efd36bdae037a665a50f6e98343346da1dba73fb
 // // Alternate way 
 // listEl.addEventListener("click", function(event) {
 //   if (event.target.matches("li")) {
