@@ -114,7 +114,7 @@ function addTrackToPlayer(songUri) {
 songUri = songUri.substring(songUri.lastIndexOf(":") + 1);
 
 console.log("uri", songUri)
-var player = $('<iframe id="playSong" width="250" height="450" frameborder="0" style={z-index:500;} allowtransparency="true" allow="encrypted-media"></iframe>');
+var player = $('<iframe id="playSong" width="600" height="350" frameborder="0" style={z-index:500;} allowtransparency="true" allow="encrypted-media"></iframe>');
 player.attr("id","trackplayer")
 var src= "https://open.spotify.com/embed/track/"+ songUri
 player.attr("src", src);
