@@ -77,6 +77,7 @@ function searchForArtist() {
             musixMatchQueryArray.push(musixMatchQuery);
             trackItems[i].querySelector(".title").textContent = title;
             trackItems[i].querySelector(".artist").textContent = artist;
+            $(trackItems[i]).attr("trackUri", response.tracks[i].uri);
           }
         });
 
@@ -90,11 +91,17 @@ document.getElementById("search").addEventListener("click", function () {
 
 
 
-const listEl = document.querySelector("#song-list");
 // First way 
+const listItem = $(".list")
+$(document).on("click", ".list_item",function(){
+ var songUri = this.getAttribute("trackuri");
+  addTrackToPlayer(songUri);
+})
+
+
+const listEl = document.querySelector("#song-list");
 listEl.addEventListener("click", function(event) {
   if (event.target.matches("li")) {
-    console.log(event.target);
     console.log(event.target.id);
     var listItem = event.target;
     var artist = listItem.querySelector(".artist").textContent;
@@ -103,7 +110,16 @@ listEl.addEventListener("click", function(event) {
     getLyricsAndDisplay(musixMatchQuery);
   }
 });
+function addTrackToPlayer(songUri) {
+songUri = songUri.substring(songUri.lastIndexOf(":") + 1);
 
+console.log("uri", songUri)
+var player = $('<iframe id="playSong" width="250" height="450" frameborder="0" style={z-index:500;} allowtransparency="true" allow="encrypted-media"></iframe>');
+player.attr("id","trackplayer")
+var src= "https://open.spotify.com/embed/track/"+ songUri
+player.attr("src", src);
+$(".playback_wrapper").html(player);
+}
 // // Alternate way 
 // listEl.addEventListener("click", function(event) {
 //   if (event.target.matches("li")) {
