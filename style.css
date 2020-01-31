@@ -521,7 +521,7 @@ body {
   transform: scale(0.98);
 }
 
-.list .list_item:nth-child(1) .thumb {
+/* .list .list_item:nth-child(1) .thumb {
   background-image: url(https://i1.sndcdn.com/artworks-000167527289-p3zpfg-large.jpg);
 }
 .list .list_item:nth-child(2) .thumb {
@@ -544,7 +544,7 @@ body {
 }
 .list .list_item:nth-child(8) .thumb {
   background-image: url(https://i1.sndcdn.com/artworks-000133986066-hf1rz6-large.jpg);
-}
+} */
 
 .selected {
   background-color: rgba(224, 186, 171, 0.19);

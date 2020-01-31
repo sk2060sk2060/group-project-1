@@ -68,16 +68,20 @@ function searchForArtist() {
         }).done(function (response) {
           var openPlayer = document.querySelector(".btn-open-player");
           openPlayer.click();
-          var trackItems = document.getElementsByClassName("list_item");
-          for (var i = 0; i < trackItems.length; i++) {
-            trackItems[i].id = i;
-            var artist = response.tracks[i].artists[0].name;
-            var title = response.tracks[i].name;
-            var musixMatchQuery = `${artist} - ${title}`;
-            musixMatchQueryArray.push(musixMatchQuery);
-            trackItems[i].querySelector(".title").textContent = title;
-            trackItems[i].querySelector(".artist").textContent = artist;
-          }
+          console.log({response} , 'Clikc Response')
+          var tracks = response.tracks;
+        
+          // var trackItems = document.getElementsByClassName("list_item");
+          // for (var i = 0; i < trackItems.length; i++) {
+          //   trackItems[i].id = i;
+          //   var artist = response.tracks[i].artists[0].name;
+          //   var title = response.tracks[i].name;
+          //   var musixMatchQuery = `${artist} - ${title}`;
+          //   musixMatchQueryArray.push(musixMatchQuery);
+          //   trackItems[i].querySelector(".title").textContent = title;
+          //   trackItems[i].querySelector(".artist").textContent = artist;
+          // }
+          displayTracks(tracks);
         });
 
     });
