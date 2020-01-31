@@ -67,6 +67,7 @@ function searchForArtist() {
     }).fail(function (jqXHR, textStatus, errorThrown) {
     }).done(function (response) {
 
+
         console.log(response);
         var firstSongID = response.artists.items[0].id;
         queryURL = `https://api.spotify.com/v1/artists/${firstSongID}/top-tracks?country=US`;
@@ -112,6 +113,7 @@ document.getElementById("search").addEventListener("click", function () {
 
 
 // First way 
+
 const listItem = $(".list")
 $(document).on("click", ".list_item",function(){
  var songUri = this.getAttribute("trackuri");
@@ -121,6 +123,7 @@ $(document).on("click", ".list_item",function(){
 
 const listEl = document.querySelector("#song-list");
 listEl.addEventListener("click", function(event) {
+
   if (event.target.matches("li")) {
     console.log(event.target.id);
     var listItem = event.target;

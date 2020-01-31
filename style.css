@@ -520,6 +520,7 @@ body {
   transform: scale(0.98);
 }
 
+
 .selected {
   background-color: rgba(224, 186, 171, 0.19);
 }
