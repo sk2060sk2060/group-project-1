@@ -94,30 +94,7 @@ document.getElementById("search").addEventListener("click", function () {
 
 
 
-const listEl = document.querySelector("#song-list");
-// First way 
-listEl.addEventListener("click", function (event) {
-  if (event.target.matches("li")) {
-    console.log(event.target);
-    console.log(event.target.id);
-    var listItem = event.target;
-    var artist = listItem.querySelector(".artist").textContent;
-    var title = listItem.querySelector(".title").textContent;
-    var musixMatchQuery = `${artist} - ${title}`;
-    $("#curator").append(`<div class="curator_title_wrapper"><span>LP</span>
-<div class="curator_line"></div>
-<div class="info"></div>
-<div class="playback_info"></div>
-<div class="title">${title}</div>
-<div class="artist">${artist}</div>
-<div class="curator_line"></div><span>20</span>
-</div>`);
-    getLyricsAndDisplay(musixMatchQuery);
 
-
-
-  }
-});
 
 // // Alternate way 
 // listEl.addEventListener("click", function(event) {
@@ -150,7 +127,16 @@ function getLyricsAndDisplay(query) {
     contentType: 'application/json',
     success: function (data) {
       console.log(data);
+
+      if( data.message.header.status_code != 200){
+       
+        alert('oops could not find the lyrics');
+        return;
+      
+    } 
       var rand = data.message.body.track_list[0];
+     
+      
       var thisTrack = (rand.track.track_id)
       getLyricsNoww(thisTrack);
     },
@@ -179,6 +165,13 @@ function getLyricsNoww(track) {
     contentType: 'application/json',
     success: function (data) {
       console.log(data);
+      console.log(data.message.header.status_code)
+      if( data.message.header.status_code != 200 ){
+       
+          alert('oops could not find the lyrics');
+          return;
+        
+      }
       console.log(data.message.body.lyrics.lyrics_body);
       var lyricsBody = data.message.body.lyrics.lyrics_body.split(/\s+/).slice(0, 100).join(" ") + "...";
       var j = document.createElement("div")
