@@ -66,22 +66,40 @@ function searchForArtist() {
       url: queryURL,
     }).fail(function (jqXHR, textStatus, errorThrown) {
     }).done(function (response) {
-      var openPlayer = document.querySelector(".btn-open-player");
-      openPlayer.click();
-      console.log({ response }, 'Clikc Response')
-      var tracks = response.tracks;
 
-      // var trackItems = document.getElementsByClassName("list_item");
-      // for (var i = 0; i < trackItems.length; i++) {
-      //   trackItems[i].id = i;
-      //   var artist = response.tracks[i].artists[0].name;
-      //   var title = response.tracks[i].name;
-      //   var musixMatchQuery = `${artist} - ${title}`;
-      //   musixMatchQueryArray.push(musixMatchQuery);
-      //   trackItems[i].querySelector(".title").textContent = title;
-      //   trackItems[i].querySelector(".artist").textContent = artist;
-      // }
-      displayTracks(tracks);
+
+        console.log(response);
+        var firstSongID = response.artists.items[0].id;
+        queryURL = `https://api.spotify.com/v1/artists/${firstSongID}/top-tracks?country=US`;
+
+        $.ajax({
+            method: "GET",
+            // headers: {
+            //     "Authorization": authorizationToken
+            // },
+            beforeSend: function (request) {
+                request.setRequestHeader("Authorization", authorizationToken);
+                request.setRequestHeader("Accept", "application/json");
+            },
+            url: queryURL,
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+        }).done(function (response) {
+          var openPlayer = document.querySelector(".btn-open-player");
+          openPlayer.click();
+          var trackItems = document.getElementsByClassName("list_item");
+          for (var i = 0; i < trackItems.length; i++) {
+            trackItems[i].id = i;
+            var artist = response.tracks[i].artists[0].name;
+            var title = response.tracks[i].name;
+            var musixMatchQuery = `${artist} - ${title}`;
+            musixMatchQueryArray.push(musixMatchQuery);
+            trackItems[i].querySelector(".title").textContent = title;
+            trackItems[i].querySelector(".artist").textContent = artist;
+            $(trackItems[i]).attr("trackUri", response.tracks[i].uri);
+          }
+        });
+
+
     });
 
   });
@@ -94,11 +112,19 @@ document.getElementById("search").addEventListener("click", function () {
 
 
 
-const listEl = document.querySelector("#song-list");
 // First way 
-listEl.addEventListener("click", function (event) {
+
+const listItem = $(".list")
+$(document).on("click", ".list_item",function(){
+ var songUri = this.getAttribute("trackuri");
+  addTrackToPlayer(songUri);
+})
+
+
+const listEl = document.querySelector("#song-list");
+listEl.addEventListener("click", function(event) {
+
   if (event.target.matches("li")) {
-    console.log(event.target);
     console.log(event.target.id);
     var listItem = event.target;
     var artist = listItem.querySelector(".artist").textContent;
@@ -118,7 +144,16 @@ listEl.addEventListener("click", function (event) {
 
   }
 });
+function addTrackToPlayer(songUri) {
+songUri = songUri.substring(songUri.lastIndexOf(":") + 1);
 
+console.log("uri", songUri)
+var player = $('<iframe id="playSong" width="600" height="350" frameborder="0" style={z-index:500;} allowtransparency="true" allow="encrypted-media"></iframe>');
+player.attr("id","trackplayer")
+var src= "https://open.spotify.com/embed/track/"+ songUri
+player.attr("src", src);
+$(".playback_wrapper").html(player);
+}
 // // Alternate way 
 // listEl.addEventListener("click", function(event) {
 //   if (event.target.matches("li")) {
