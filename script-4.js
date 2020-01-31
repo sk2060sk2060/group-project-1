@@ -94,6 +94,10 @@ document.getElementById("search").addEventListener("click", function () {
 
 
 
+<<<<<<< HEAD
+
+
+=======
 // First way 
 
 const listItem = $(".list")
@@ -157,6 +161,7 @@ var src= "https://open.spotify.com/embed/track/"+ songUri
 player.attr("src", src);
 $(".playback_wrapper").html(player);
 }
+>>>>>>> efd36bdae037a665a50f6e98343346da1dba73fb
 // // Alternate way 
 // listEl.addEventListener("click", function(event) {
 //   if (event.target.matches("li")) {
@@ -188,7 +193,16 @@ function getLyricsAndDisplay(query) {
     contentType: 'application/json',
     success: function (data) {
       console.log(data);
+
+      if( data.message.header.status_code != 200){
+       
+        alert('oops could not find the lyrics');
+        return;
+      
+    } 
       var rand = data.message.body.track_list[0];
+     
+      
       var thisTrack = (rand.track.track_id)
       getLyricsNoww(thisTrack);
     },
@@ -217,6 +231,13 @@ function getLyricsNoww(track) {
     contentType: 'application/json',
     success: function (data) {
       console.log(data);
+      console.log(data.message.header.status_code)
+      if( data.message.header.status_code != 200 ){
+       
+          alert('oops could not find the lyrics');
+          return;
+        
+      }
       console.log(data.message.body.lyrics.lyrics_body);
       var lyricsBody = data.message.body.lyrics.lyrics_body.split(/\s+/).slice(0, 100).join(" ") + "...";
       var j = document.createElement("div")
