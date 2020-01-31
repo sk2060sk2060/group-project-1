@@ -2,6 +2,7 @@ var button = document.getElementById("btn");
 var authorizationToken;
 var queryURL;
 var searchTerm;
+var musixMatchQueryArray = [];
 
 $(document).ready(function () {
 
@@ -15,7 +16,7 @@ function requestToken() {
     var redirectUri = window.location.href;
     if (redirectUri.includes("#access_token=")) return;
 
-    if (redirectUri !== "https://sk2060sk2060.github.io/project-1" || redirectUri !== "http://127.0.0.1:8080/") {
+    if (redirectUri !== "https://sk2060sk2060.github.io/group-project-1" || redirectUri !== "http://127.0.0.1:8080/") {
         redirectUri = "http://127.0.0.1:8080/"
 
         var scope = "user-library-modify";
@@ -65,16 +66,22 @@ function searchForArtist() {
             url: queryURL,
         }).fail(function (jqXHR, textStatus, errorThrown) {
         }).done(function (response) {
-            console.log("tracks", response);
-            var artist = response[0].artists[0].name;
-            var title = response[0].name;
+          var openPlayer = document.querySelector(".btn-open-player");
+          openPlayer.click();
+          var trackItems = document.getElementsByClassName("list_item");
+          for (var i = 0; i < trackItems.length; i++) {
+            trackItems[i].id = i;
+            var artist = response.tracks[i].artists[0].name;
+            var title = response.tracks[i].name;
             var musixMatchQuery = `${artist} - ${title}`;
-
+            musixMatchQueryArray.push(musixMatchQuery);
+            trackItems[i].querySelector(".title").textContent = title;
+            trackItems[i].querySelector(".artist").textContent = artist;
+          }
         });
 
     });
 }
-
 
 
 document.getElementById("search").addEventListener("click", function () {
@@ -83,5 +90,95 @@ document.getElementById("search").addEventListener("click", function () {
 
 
 
+const listEl = document.querySelector("#song-list");
+// First way 
+listEl.addEventListener("click", function(event) {
+  if (event.target.matches("li")) {
+    console.log(event.target);
+    console.log(event.target.id);
+    var listItem = event.target;
+    var artist = listItem.querySelector(".artist").textContent;
+    var title = listItem.querySelector(".title").textContent;
+    var musixMatchQuery = `${artist} - ${title}`;
+    getLyricsAndDisplay(musixMatchQuery);
+  }
+});
+
+// // Alternate way 
+// listEl.addEventListener("click", function(event) {
+//   if (event.target.matches("li")) {
+//     console.log(event.target);
+//     console.log(event.target.id);
+//     var listItem = event.target;
+//     var listItemID = event.target.id;
+//     var queryMusixMatch = musixMatchQueryArray[parseInt(listItemID)];
+//     console.log(queryMusixMatch);
+//     getLyricsAndDisplay(queryMusixMatch);
+//   }
+// });
 
 
+function getLyricsAndDisplay(query){
+  var trackSearch = query;
+  document.getElementById("lyrics").innerHTML = "";
+    $.ajax({
+      type: "GET",
+      data: {
+        apikey:"da9deef32d4c04ca1b56d484548bdf76",
+        q_track_artist: trackSearch,
+        format:"jsonp",
+        callback:"jsonp_callback"
+      },
+      url: "https://api.musixmatch.com/ws/1.1/track.search?format=jsonp&callback=callback&quorum_factor=1&apikey=https://api.musixmatch.com/ws/1.1/track.lyrics.get?format=jsonp&callback=callback&track_id=0&apikey=da9deef32d4c04ca1b56d484548bdf76",
+      dataType: "jsonp",
+      jsonpCallback: 'jsonp_callback',
+      contentType: 'application/json',
+      success: function(data) {
+        console.log(data); 
+        var rand = data.message.body.track_list[0];
+        var thisTrack = (rand.track.track_id)
+        getLyricsNoww(thisTrack);    
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        console.log(jqXHR);
+        console.log(textStatus);
+        console.log(errorThrown);
+      }    
+  });
+};
+
+function getLyricsNoww(track){
+  var trackId = track;
+  console.log(trackId)
+  $.ajax({
+    type: "GET",
+    data: {
+      apikey:"da9deef32d4c04ca1b56d484548bdf76",
+      track_id: trackId,
+      format:"jsonp",
+      callback:"jsonp_callback"
+    },
+    url: "https://api.musixmatch.com/ws/1.1/track.lyrics.get?format=jsonp&callback=callback&track_id=0&apikey=https://api.musixmatch.com/ws/1.1/track.lyrics.get?format=jsonp&callback=callback&track_id=0&apikey=da9deef32d4c04ca1b56d484548bdf76",
+    dataType: "jsonp",
+    jsonpCallback: 'jsonp_callback',
+    contentType: 'application/json',
+    success: function(data) {
+      console.log(data); 
+      console.log(data.message.body.lyrics.lyrics_body); 
+      var lyricsBody = data.message.body.lyrics.lyrics_body.split(/\s+/).slice(0,100).join(" ")+ "...";
+      var j = document.createElement("div")
+      j.setAttribute("style", "white-space: pre-wrap; font-size: 20px; color: brown;");
+      j.textContent = lyricsBody
+      document.getElementById("lyrics").appendChild(j)
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR);
+      console.log(textStatus);
+      console.log(errorThrown);
+    }    
+  });
+ };
+
+
+        
+   
