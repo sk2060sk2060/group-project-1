@@ -66,7 +66,7 @@ function searchForArtist() {
       url: queryURL,
     }).fail(function (jqXHR, textStatus, errorThrown) {
     }).done(function (response) {
-<<<<<<< HEAD
+
         console.log(response);
         var firstSongID = response.artists.items[0].id;
         queryURL = `https://api.spotify.com/v1/artists/${firstSongID}/top-tracks?country=US`;
@@ -98,24 +98,7 @@ function searchForArtist() {
           }
         });
 
-=======
-      var openPlayer = document.querySelector(".btn-open-player");
-      openPlayer.click();
-      console.log({ response }, 'Clikc Response')
-      var tracks = response.tracks;
 
-      // var trackItems = document.getElementsByClassName("list_item");
-      // for (var i = 0; i < trackItems.length; i++) {
-      //   trackItems[i].id = i;
-      //   var artist = response.tracks[i].artists[0].name;
-      //   var title = response.tracks[i].name;
-      //   var musixMatchQuery = `${artist} - ${title}`;
-      //   musixMatchQueryArray.push(musixMatchQuery);
-      //   trackItems[i].querySelector(".title").textContent = title;
-      //   trackItems[i].querySelector(".artist").textContent = artist;
-      // }
-      displayTracks(tracks);
->>>>>>> 42d4a2bb1401e6e729555ac51c86f989eb2b4cee
     });
 
   });
@@ -129,7 +112,6 @@ document.getElementById("search").addEventListener("click", function () {
 
 
 // First way 
-<<<<<<< HEAD
 const listItem = $(".list")
 $(document).on("click", ".list_item",function(){
  var songUri = this.getAttribute("trackuri");
@@ -139,9 +121,6 @@ $(document).on("click", ".list_item",function(){
 
 const listEl = document.querySelector("#song-list");
 listEl.addEventListener("click", function(event) {
-=======
-listEl.addEventListener("click", function (event) {
->>>>>>> 42d4a2bb1401e6e729555ac51c86f989eb2b4cee
   if (event.target.matches("li")) {
     console.log(event.target.id);
     var listItem = event.target;

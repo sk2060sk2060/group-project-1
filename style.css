@@ -520,34 +520,6 @@ body {
   transform: scale(0.98);
 }
 
-<<<<<<< HEAD
-=======
-/* .list .list_item:nth-child(1) .thumb {
-  background-image: url(https://i1.sndcdn.com/artworks-000167527289-p3zpfg-large.jpg);
-}
-.list .list_item:nth-child(2) .thumb {
-  background-image: url(https://i1.sndcdn.com/artworks-000149308680-w9rj6a-large.jpg);
-}
-.list .list_item:nth-child(3) .thumb {
-  background-image: url(https://i1.sndcdn.com/artworks-000091003491-upr0rf-large.jpg);
-}
-.list .list_item:nth-child(4) .thumb {
-  background-image: url(https://i1.sndcdn.com/artworks-000125642440-o2ff73-large.jpg);
-}
-.list .list_item:nth-child(5) .thumb {
-  background-image: url(https://i1.sndcdn.com/artworks-000174340505-wv6dl1-large.jpg);
-}
-.list .list_item:nth-child(6) .thumb {
-  background-image: url(https://i1.sndcdn.com/artworks-000169142537-e22x2o-large.jpg);
-}
-.list .list_item:nth-child(7) .thumb {
-  background-image: url(https://i1.sndcdn.com/artworks-000180119811-wgpequ-large.jpg);
-}
-.list .list_item:nth-child(8) .thumb {
-  background-image: url(https://i1.sndcdn.com/artworks-000133986066-hf1rz6-large.jpg);
-} */
->>>>>>> 42d4a2bb1401e6e729555ac51c86f989eb2b4cee
-
 .selected {
   background-color: rgba(224, 186, 171, 0.19);
 }
