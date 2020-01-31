@@ -48,23 +48,6 @@ function searchForArtist() {
       request.setRequestHeader("Accept", "application/json");
     },
     url: queryURL,
-  }).fail(function (jqXHR, textStatus, errorThrown) {
-  }).done(function (response) {
-    console.log(response);
-    var firstSongID = response.artists.items[0].id;
-    queryURL = `https://api.spotify.com/v1/artists/${firstSongID}/top-tracks?country=US`;
-
-    $.ajax({
-      method: "GET",
-      // headers: {
-      //     "Authorization": authorizationToken
-      // },
-      beforeSend: function (request) {
-        request.setRequestHeader("Authorization", authorizationToken);
-        request.setRequestHeader("Accept", "application/json");
-      },
-      url: queryURL,
-    }).fail(function (jqXHR, textStatus, errorThrown) {
     }).done(function (response) {
 
 
@@ -82,11 +65,12 @@ function searchForArtist() {
                 request.setRequestHeader("Accept", "application/json");
             },
             url: queryURL,
-        }).fail(function (jqXHR, textStatus, errorThrown) {
         }).done(function (response) {
+          console.log("tracks", response);
           var openPlayer = document.querySelector(".btn-open-player");
           openPlayer.click();
           var trackItems = document.getElementsByClassName("list_item");
+          displayTracks(response.tracks);
           for (var i = 0; i < trackItems.length; i++) {
             trackItems[i].id = i;
             var artist = response.tracks[i].artists[0].name;
@@ -101,8 +85,6 @@ function searchForArtist() {
 
 
     });
-
-  });
 }
 
 
@@ -144,6 +126,27 @@ listEl.addEventListener("click", function(event) {
 
   }
 });
+
+function displayTracks(tracks) {
+
+  for (var i = 0; i < tracks.length; i++) {
+      var trackName = tracks[i].name;
+      var artistName = tracks[i].artists[0].name;
+      var image = tracks[i].album.images[0].url;
+      console.log(trackName);
+
+      $("#song-list").append(`<li class="list_item choice" id="0" data-title="${trackName}" data-artist="">
+      <div class="thumb"><img src="${image}"> </div>
+      <div class="info"> 
+        <div class="title">${trackName}</div>
+        <div class="artist">${artistName}</div>
+      </div>
+    </li>`);
+  
+  }
+
+}
+
 function addTrackToPlayer(songUri) {
 songUri = songUri.substring(songUri.lastIndexOf(":") + 1);
 
