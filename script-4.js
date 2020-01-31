@@ -94,10 +94,7 @@ document.getElementById("search").addEventListener("click", function () {
 
 
 
-<<<<<<< HEAD
 
-
-=======
 // First way 
 
 const listItem = $(".list")
@@ -161,7 +158,6 @@ var src= "https://open.spotify.com/embed/track/"+ songUri
 player.attr("src", src);
 $(".playback_wrapper").html(player);
 }
->>>>>>> efd36bdae037a665a50f6e98343346da1dba73fb
 // // Alternate way 
 // listEl.addEventListener("click", function(event) {
 //   if (event.target.matches("li")) {
