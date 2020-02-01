@@ -224,15 +224,30 @@ function getLyricsNoww(track) {
     success: function (data) {
       console.log(data);
       console.log(data.message.header.status_code)
+      // if( data.message.header.status_code != 200 ){
+      //   alert('oops could not find the lyrics');
+      //   var j = document.createElement("div")
+      //   j.textContent = "oops could not find the lyrics"
+      //   document.getElementById("lyrics").appendChild(j);
+      //   j.setAttribute("style", "white-space: pre-wrap; font-size: 20px; color: brown;");        
+      //   return;        
+      //}
+
       if( data.message.header.status_code != 200 ){
-        alert('oops could not find the lyrics');
-        return;        
+        var lyricsText = "oops could not find the lyrics";
+        document.getElementsByClassName("curator_list_content")[0].setAttribute("style", "margin-left: 39%;");
+        var j = document.createElement("div")
+        j.setAttribute("style", "white-space: pre-wrap; font-size: 20px; color: brown; text-align: center;");         
       }
-      console.log(data.message.body.lyrics.lyrics_body);
-      var lyricsBody = data.message.body.lyrics.lyrics_body.split(/\s+/).slice(0, 100).join(" ") + "...";
-      var j = document.createElement("div")
-      j.setAttribute("style", "white-space: pre-wrap; font-size: 20px; color: brown;");
-      j.textContent = lyricsBody
+      else {
+        console.log(data.message.body.lyrics.lyrics_body);
+        var lyricsText = data.message.body.lyrics.lyrics_body.split(/\s+/).slice(0, 100).join(" ") + "...";        
+        var j = document.createElement("div")
+        j.setAttribute("style", "white-space: pre-wrap; font-size: 20px; color: brown; text-align: center; ");
+      }
+      // var j = document.createElement("div")
+      // j.setAttribute("style", "white-space: pre-wrap; font-size: 20px; color: brown; text-align: center");
+      j.textContent = lyricsText;
       document.getElementById("lyrics").appendChild(j)
     },
     error: function (jqXHR, textStatus, errorThrown) {
