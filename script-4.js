@@ -32,7 +32,7 @@ function getToken() {
 
 function buildQueryURL() {
   searchTerm = $("#search-term").val();
-  console.log(searchTerm);
+  // console.log(searchTerm);
   queryURL = "https://api.spotify.com/v1/search?q=" + searchTerm + "&type=artist";
 }
 
