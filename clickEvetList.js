@@ -6,15 +6,8 @@ $(document).on("click", ".choice" , function() {
     var artist = $(this).data('artist')
      
     var musixMatchQuery = `${artist} - ${title}`;
-
-    $("#curator").append(`<div class="curator_title_wrapper"><span>LP</span>
-     <div class="curator_line"></div>
-     <div class="info"></div>
-     <div class="playback_info"></div>
-     <div class="title">${title}</div>
-     <div class="artist">${artist}</div>
-     <div class="curator_line"></div><span>20</span>
-     </div>`);
+    $("#curator-title").text(title);
+    $("#curator-artist").text(artist);
 
      $("#player").hide('slow')
      var homeToMain = new TimelineMax({});
