@@ -113,7 +113,7 @@ listEl.addEventListener("click", function(event) {
     var artist = listItem.querySelector(".artist").textContent;
     var title = listItem.querySelector(".title").textContent;
     var musixMatchQuery = `${artist} - ${title}`;
-    $("#curator").append(`<div class="curator_title_wrapper"><span>LP</span>
+    $("#curator").html(`<div class="curator_title_wrapper"><span>LP</span>
 <div class="curator_line"></div>
 <div class="info"></div>
 <div class="playback_info"></div>
@@ -174,7 +174,7 @@ $(".playback_wrapper").html(player);
 
 function getLyricsAndDisplay(query) {
   var trackSearch = query;
-  document.getElementById("lyrics").innerHTML = "";
+$("#thingy").text("")
   $.ajax({
     type: "GET",
     data: {
@@ -188,7 +188,7 @@ function getLyricsAndDisplay(query) {
     jsonpCallback: 'jsonp_callback',
     contentType: 'application/json',
     success: function (data) {
-      console.log(data);
+      console.log("id", data);
 
       if( data.message.header.status_code != 200){       
         alert('oops could not find the lyrics');        
@@ -208,7 +208,7 @@ function getLyricsAndDisplay(query) {
 
 function getLyricsNoww(track) {
   var trackId = track;
-  console.log(trackId)
+  console.log("lyrics query", trackId)
   $.ajax({
     type: "GET",
     data: {
@@ -220,42 +220,36 @@ function getLyricsNoww(track) {
     url: "https://api.musixmatch.com/ws/1.1/track.lyrics.get?format=jsonp&callback=callback&track_id=0&apikey=https://api.musixmatch.com/ws/1.1/track.lyrics.get?format=jsonp&callback=callback&track_id=0&apikey=da9deef32d4c04ca1b56d484548bdf76",
     dataType: "jsonp",
     jsonpCallback: 'jsonp_callback',
-    contentType: 'application/json',
-    success: function (data) {
-      console.log(data);
-      console.log(data.message.header.status_code)
-      // if( data.message.header.status_code != 200 ){
-      //   alert('oops could not find the lyrics');
-      //   var j = document.createElement("div")
-      //   j.textContent = "oops could not find the lyrics"
-      //   document.getElementById("lyrics").appendChild(j);
-      //   j.setAttribute("style", "white-space: pre-wrap; font-size: 20px; color: brown;");        
-      //   return;        
-      //}
+    contentType: 'application/json'
+  }).then(function(data){
+    console.log("lyrics data", data);
+    console.log(data.message.header.status_code)
+    // if( data.message.header.status_code != 200 ){
+    //   alert('oops could not find the lyrics');
+    //   var j = document.createElement("div")
+    //   j.textContent = "oops could not find the lyrics"
+    //   document.getElementById("lyrics").appendChild(j);
+    //   j.setAttribute("style", "white-space: pre-wrap; font-size: 20px; color: brown;");        
+    //   return;        
+    //}
 
-      if( data.message.header.status_code != 200 ){
-        var lyricsText = "oops could not find the lyrics";
-        document.getElementsByClassName("curator_list_content")[0].setAttribute("style", "margin-left: 39%;");
-        var j = document.createElement("div")
-        j.setAttribute("style", "white-space: pre-wrap; font-size: 20px; color: brown; text-align: center;");         
-      }
-      else {
-        console.log(data.message.body.lyrics.lyrics_body);
-        var lyricsText = data.message.body.lyrics.lyrics_body.split(/\s+/).slice(0, 100).join(" ") + "...";        
-        var j = document.createElement("div")
-        j.setAttribute("style", "white-space: pre-wrap; font-size: 20px; color: brown; text-align: center; ");
-      }
-      // var j = document.createElement("div")
-      // j.setAttribute("style", "white-space: pre-wrap; font-size: 20px; color: brown; text-align: center");
-      j.textContent = lyricsText;
-      document.getElementById("lyrics").appendChild(j)
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      console.log(jqXHR);
-      console.log(textStatus);
-      console.log(errorThrown);
+    if( data.message.header.status_code != 200 ){
+      var lyricsText = "Oops Could Not Find The Lyrics!";
+      document.getElementsByClassName("curator_list_content")[0].setAttribute("style", "margin-left: 39%;");
+      var j = document.createElement("div")
+      j.setAttribute("style", "white-space: pre-wrap; font-size: 20px; color: brown; text-align: center;");         
     }
-  });
+    else {
+      console.log(data.message.body.lyrics.lyrics_body);
+      var lyricsText = data.message.body.lyrics.lyrics_body.split(/\s+/).slice(0, 100).join(" ") + "...";        
+      var j = document.createElement("div")
+      j.setAttribute("style", "white-space: pre-wrap; font-size: 20px; color: brown; text-align: center; ");
+    }
+    // var j = document.createElement("div")
+    // j.setAttribute("style", "white-space: pre-wrap; font-size: 20px; color: brown; text-align: center");
+    j.textContent = lyricsText;
+    $("#thingy").append(j)
+  })
 };
 
 
