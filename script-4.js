@@ -190,15 +190,11 @@ function getLyricsAndDisplay(query) {
     success: function (data) {
       console.log(data);
 
-      if( data.message.header.status_code != 200){
-       
-        alert('oops could not find the lyrics');
-        return;
-      
+      if( data.message.header.status_code != 200){       
+        alert('oops could not find the lyrics');        
+        return;      
     } 
-      var rand = data.message.body.track_list[0];
-     
-      
+      var rand = data.message.body.track_list[0];      
       var thisTrack = (rand.track.track_id)
       getLyricsNoww(thisTrack);
     },
@@ -229,10 +225,8 @@ function getLyricsNoww(track) {
       console.log(data);
       console.log(data.message.header.status_code)
       if( data.message.header.status_code != 200 ){
-       
-          alert('oops could not find the lyrics');
-          return;
-        
+        alert('oops could not find the lyrics');
+        return;        
       }
       console.log(data.message.body.lyrics.lyrics_body);
       var lyricsBody = data.message.body.lyrics.lyrics_body.split(/\s+/).slice(0, 100).join(" ") + "...";
