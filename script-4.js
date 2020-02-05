@@ -94,9 +94,6 @@ document.getElementById("search").addEventListener("click", function () {
 
 
 
-
-// First way 
-
 const listItem = $(".list")
 $(document).on("click", ".list_item",function(){
  var songUri = this.getAttribute("trackuri");
@@ -121,7 +118,7 @@ listEl.addEventListener("click", function(event) {
 <div class="artist">${artist}</div>
 <div class="curator_line"></div><span>20</span>
 </div>`);
-    getLyricsAndDisplay(musixMatchQuery);
+
 
 
 
@@ -158,99 +155,32 @@ var src= "https://open.spotify.com/embed/track/"+ songUri
 player.attr("src", src);
 $(".playback_wrapper").html(player);
 }
-// // Alternate way 
-// listEl.addEventListener("click", function(event) {
-//   if (event.target.matches("li")) {
-//     console.log(event.target);
-//     console.log(event.target.id);
-//     var listItem = event.target;
-//     var listItemID = event.target.id;
-//     var queryMusixMatch = musixMatchQueryArray[parseInt(listItemID)];
-//     console.log(queryMusixMatch);
-//     getLyricsAndDisplay(queryMusixMatch);
-//   }
-// });
 
 
 function getLyricsAndDisplay(query) {
-  var trackSearch = query;
-$("#thingy").text("")
+  var artistName = query.artist;
+  var trackName = query.title;
+  $("#thingy").text("");
   $.ajax({
     type: "GET",
-    data: {
-      apikey: "da9deef32d4c04ca1b56d484548bdf76",
-      q_track_artist: trackSearch,
-      format: "jsonp",
-      callback: "jsonp_callback"
-    },
-    url: "https://api.musixmatch.com/ws/1.1/track.search?format=jsonp&callback=callback&quorum_factor=1&apikey=https://api.musixmatch.com/ws/1.1/track.lyrics.get?format=jsonp&callback=callback&track_id=0&apikey=da9deef32d4c04ca1b56d484548bdf76",
+    url: "https://api.musixmatch.com/ws/1.1/matcher.lyrics.get?format=jsonp&callback=callback&q_track=" + trackName + "&q_artist=" + artistName + "&apikey=da9deef32d4c04ca1b56d484548bdf76",
     dataType: "jsonp",
     jsonpCallback: 'jsonp_callback',
     contentType: 'application/json',
     success: function (data) {
-      console.log("id", data);
-
-      if( data.message.header.status_code != 200){       
-        alert('oops could not find the lyrics');        
-        return;      
-    } 
-      var rand = data.message.body.track_list[0];      
-      var thisTrack = (rand.track.track_id)
-      getLyricsNoww(thisTrack);
+      var lyricsText = data.message.body.lyrics.lyrics_body;
+      var divEL = document.createElement("div")
+      divEL.setAttribute("style", "white-space: pre-wrap; font-size: 20px; color: brown; text-align: center; height: 250px; overflow-y:auto; font-weight: bold;");
+      divEL.textContent = lyricsText;
+      $("#thingy").append(divEL)       
     },
     error: function (jqXHR, textStatus, errorThrown) {
-      console.log(jqXHR);
-      console.log(textStatus);
-      console.log(errorThrown);
+      var lyricsText = "Oops Could Not Find The Lyrics!";
+      document.getElementsByClassName("curator_list_content")[0].setAttribute("style", "margin-left: 39%;");
+      var divEL = document.createElement("div")
+      divEL.setAttribute("style", "white-space: pre-wrap; font-size: 20px; color: brown; text-align: center; font-weight: bold;");
+      divEL.textContent = lyricsText;
+      $("#thingy").append(divEL)   
     }
   });
 };
-
-function getLyricsNoww(track) {
-  var trackId = track;
-  console.log("lyrics query", trackId)
-  $.ajax({
-    type: "GET",
-    data: {
-      apikey: "da9deef32d4c04ca1b56d484548bdf76",
-      track_id: trackId,
-      format: "jsonp",
-      callback: "jsonp_callback"
-    },
-    url: "https://api.musixmatch.com/ws/1.1/track.lyrics.get?format=jsonp&callback=callback&track_id=0&apikey=https://api.musixmatch.com/ws/1.1/track.lyrics.get?format=jsonp&callback=callback&track_id=0&apikey=da9deef32d4c04ca1b56d484548bdf76",
-    dataType: "jsonp",
-    jsonpCallback: 'jsonp_callback',
-    contentType: 'application/json'
-  }).then(function(data){
-    console.log("lyrics data", data);
-    console.log(data.message.header.status_code)
-    // if( data.message.header.status_code != 200 ){
-    //   alert('oops could not find the lyrics');
-    //   var j = document.createElement("div")
-    //   j.textContent = "oops could not find the lyrics"
-    //   document.getElementById("lyrics").appendChild(j);
-    //   j.setAttribute("style", "white-space: pre-wrap; font-size: 20px; color: brown;");        
-    //   return;        
-    //}
-
-    if( data.message.header.status_code != 200 ){
-      var lyricsText = "Oops Could Not Find The Lyrics!";
-      document.getElementsByClassName("curator_list_content")[0].setAttribute("style", "margin-left: 39%;");
-      var j = document.createElement("div")
-      j.setAttribute("style", "white-space: pre-wrap; font-size: 20px; color: brown; text-align: center;");         
-    }
-    else {
-      console.log(data.message.body.lyrics.lyrics_body);
-      var lyricsText = data.message.body.lyrics.lyrics_body.split(/\s+/).slice(0, 100).join(" ") + "...";        
-      var j = document.createElement("div")
-      j.setAttribute("style", "white-space: pre-wrap; font-size: 20px; color: brown; text-align: center; ");
-    }
-    // var j = document.createElement("div")
-    // j.setAttribute("style", "white-space: pre-wrap; font-size: 20px; color: brown; text-align: center");
-    j.textContent = lyricsText;
-    $("#thingy").append(j)
-  })
-};
-
-
-
