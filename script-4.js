@@ -137,6 +137,7 @@ function displayTracks(tracks) {
       <div class="thumb"><img src="${image}"> </div>
       <div class="info"> 
         <div class="title">${trackName}</div>
+        <div class="title">-</div>
         <div class="artist">${artistName}</div>
       </div>
     </li>`);
