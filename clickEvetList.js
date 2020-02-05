@@ -2,10 +2,14 @@
 $(document).on("click", ".choice" , function() {
   
 
-    var title = $(this).data('title');
-    var artist = $(this).data('artist')
-     
-    var musixMatchQuery = `${artist} - ${title}`;
+    // var title = $(this).data('title');
+    // var artist = $(this).data('artist')
+
+    var title = $(this).find(".title").text();
+    var artist = $(this).find(".artist").text();
+    
+    // var musixMatchQuery = `${artist} - ${title}`;
+    var musixMatchQuery = {"artist": artist, "title": title};
     $("#curator-title").text(title);
     $("#curator-artist").text(artist);
 

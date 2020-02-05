@@ -8,7 +8,7 @@ function displayTracks(tracks) {
         var image = tracks[i].album.images[0].url;
         console.log(trackName);
 
-        $("#song-list").append(`<li class="list_item choice" id="0" data-title="${trackName}" data-artist="${trackName}">
+        $("#song-list").append(`<li class="list_item choice" id="0" data-title="${trackName}" data-artist="${artistName}">
         <div class="thumb"><img src="${image}"> </div>
         <div class="info"> 
           <div class="title">${trackName}</div>
